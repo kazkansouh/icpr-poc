@@ -1,0 +1,29 @@
+#define ULONG uint32
+#define DWORD int32
+#define BYTE uint8
+#define wchar_t uint16
+
+[
+    uuid(91ae6020-9e3c-11cf-8d7c-00aa00c091be),
+    pointer_default(unique)
+]
+interface ICertPassage {
+
+  typedef struct _CERTTRANSBLOB {
+    ULONG                       cb;
+    [size_is(cb), unique] BYTE *pb;
+  } CERTTRANSBLOB;
+
+  DWORD CertServerRequest(
+      //      [in]                                  handle_t        h,
+      [in]                                  DWORD           dwFlags,
+      [in, string, unique, charset(UTF16)]  wchar_t         *pwszAuthority,
+      [in, out, ref]                        DWORD           *pdwRequestId,
+      [out]                                 DWORD           *pdwDisposition,
+      [in, ref]                             CERTTRANSBLOB   *pctbAttribs,
+      [in, ref]                             CERTTRANSBLOB   *pctbRequest,
+      [out, ref]                            CERTTRANSBLOB   *pctbCert,
+      [out, ref]                            CERTTRANSBLOB   *pctbEncodedCert,
+      [out, ref]                            CERTTRANSBLOB   *pctbDispositionMessage);
+
+}
